@@ -71,7 +71,7 @@ class post_BMN():
         self.low_th = kwargs.get('soft_nms_low_th', 0.5)
         self.high_th = kwargs.get('soft_nms_high_th', 0.9)
         self.proposal_num = kwargs.get('BMN_proposal_num', 100)
-        self.eval = eval_tIoU(result_dir, self.proposal_num)
+        self.eval = eval_tIoU(os.path.join(result_dir, self.dataset), self.proposal_num)
         self.video_post_process()
 
 
