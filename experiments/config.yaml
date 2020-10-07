@@ -1,0 +1,43 @@
+# dataset settings
+dataset: Original
+max_video_length: 1000
+min_video_length: 50
+BMN_batch_size: 16
+num_workers: 4
+
+# general settings
+BMN_epoch_num: 1
+BMN_result_dir: ./BMN_result
+BMN_checkpoint_dir: ./BMN_checkpoint
+
+# learning_scheduler settings
+factor: 0.1 # sqrt(factor)
+min_learning_rate: 1e-12 # sqrt(min_learning_rate)
+
+# BMN settings
+# bmn optimizer settings
+BMN_learning_rate: 1e-6 # sqrt(learning_rate)
+BMN_weight_decay: 1e-6
+
+# bmn model settings
+hidden_1d: 256
+hidden_2d: 128
+hidden_3d: 512
+bmn_groups: 4
+bmn_dropout: 0.125
+prop_boundary_ratio: 0.5
+num_sample: 8
+num_sample_perbin: 3
+
+# bmn postprocess settings
+soft_nms_alpha: 0.4
+soft_nms_low_th: 0.5
+soft_nms_high_th: 0.9
+BMN_proposal_num: 100
+# kernel_size: 5
+# stride: 2
+# dilation: 1
+# padding: 0
+
+# loss function settings
+eps: 1e-8
