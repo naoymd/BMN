@@ -37,7 +37,6 @@ def parse_args():
 
 def BMN_train(train_dataloader, val_dataloader, bmn, criterion, optimizer, lr_scheduler, CONFIG, args, device, date_path):
     train_start = time.time()
-    print('-'*10, 'BMN train and validation', '-'*10)
     
     # make result directory
     result_path = os.path.join(CONFIG.BMN_result_dir, date_path)
@@ -196,7 +195,7 @@ def BMN_train(train_dataloader, val_dataloader, bmn, criterion, optimizer, lr_sc
 def BMN_test(test_dataloader, bmn, criterion, optimizer, lr_scheduler, CONFIG, args, device, date_path):
     # test
     test_start = time.time()
-    print('-'*10, 'BMN test', '-'*10)
+    print('-'*5, 'test', '-'*5)
     result_path = os.path.join(CONFIG.BMN_result_dir, date_path)
     csv_path = os.path.join(CONFIG.BMN_result_dir, CONFIG.dataset, 'csv')
     if os.path.exists(csv_path):
@@ -250,10 +249,11 @@ def BMN_test(test_dataloader, bmn, criterion, optimizer, lr_scheduler, CONFIG, a
             proposals_df.to_csv(os.path.join(csv_path, video_id[0])+'.csv', index=False)
     
     print('BMN post processing')
-    post_BMN(mode='val test', **CONFIG)
+    post_BMN(mode='val', **CONFIG)
     
 
-def BMN_main(CONFIG, args, device, date_path):    
+def BMN_main(CONFIG, args, device, date_path):
+    print('-'*10, 'BMN train and validation', '-'*10)
     # BMN_train loading dataset
     if CONFIG.dataset == 'ActivityNet':
         train_dataset = ActivityNet_Captions_BMN_Dataset(mode='train', **CONFIG)
@@ -383,6 +383,7 @@ def BMN_main(CONFIG, args, device, date_path):
 
     BMN_train(train_dataloader, val_dataloader, bmn, criterion, optimizer, lr_scheduler, CONFIG, args, device, date_path)
     
+    print('-'*10, 'BMN test', '-'*10)
     # BMN_test loading dataset
     if CONFIG.dataset == 'ActivityNet':
         test_dataset = ActivityNet_Captions_BMN_Dataset(mode='val test', **CONFIG)
@@ -415,7 +416,7 @@ def BMN_main(CONFIG, args, device, date_path):
             collate_fn = BMN_collate_fn
         )
     elif CONFIG.dataset == 'Original':
-        test_dataset = VideoDataSet(mode='val test', **CONFIG)
+        test_dataset = VideoDataSet(mode='val', **CONFIG)
         test_dataloader = torch.utils.data.DataLoader(
             dataset = test_dataset,
             batch_size = 1,
